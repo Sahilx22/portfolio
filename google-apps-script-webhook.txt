@@ -1,0 +1,114 @@
+Google Apps Script Webhook (send email to sahilsoni.ds@gmail.com)
+
+Filename: Code.gs
+
+// Paste this into a new Google Apps Script project (Code.gs)
+// Replace SECRET_PLACEHOLDER with a secret string (optional but recommended).
+
+function doPost(e) {
+  try {
+    var data = {};
+    if (e.postData && e.postData.type && e.postData.type.indexOf('application/json') !== -1) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.postData && e.postData.contents) {
+      // try parsing anyway
+      try { data = JSON.parse(e.postData.contents); } catch (err) { data = e.parameter || {}; }
+    } else {
+      data = e.parameter || {};
+    }
+
+    // Optional secret to prevent anonymous abuse. Set this to the same value you use in the website payload.
+    var SECRET = 'SECRET_PLACEHOLDER'; // <-- Replace with a strong secret or leave empty to disable check
+
+    if (SECRET && SECRET !== '' && data.secret !== SECRET) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'error', message: 'invalid secret' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var to = 'sahilsoni.ds@gmail.com';
+    var subject = data.subject || 'connection lead request';
+
+    var body = '';
+    body += 'Name: ' + (data.name || '') + '\n';
+    body += 'Email: ' + (data.email || '') + '\n\n';
+    body += 'Message:\n' + (data.message || '') + '\n\n';
+    body += 'Source: ' + (data.source || '') + '\n';
+    body += 'Timestamp: ' + (data.timestamp || new Date().toISOString()) + '\n';
+
+    // Send email. Set replyTo to the sender email so you can reply directly.
+    var mailOptions = { replyTo: data.email };
+
+    MailApp.sendEmail(to, subject, body, mailOptions);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+
+Deployment & Integration Steps
+------------------------------
+1. Create the Apps Script project
+   - Open script.google.com and click "New project".
+   - Replace the default code in Code.gs with the script above.
+
+2. Configure the secret (recommended)
+   - Replace the string 'SECRET_PLACEHOLDER' with a random secret value you choose (e.g. a long random string).
+   - Keep the same secret value for the website (see step 5).
+
+3. Save the project
+   - Give it a name (e.g., "Portfolio Contact Webhook") and save.
+
+4. Deploy the web app
+   - Click "Deploy" -> "New deployment".
+   - For "Select type" choose "Web app".
+   - Under "Description" put something like "Contact form endpoint".
+   - For "Execute as" select: "Me" (this ensures the script can send email from your account).
+   - For "Who has access" select: "Anyone" or "Anyone, even anonymous" (if you want the public site to POST without requiring sign-in). Note: selecting anyone makes the endpoint public — use the secret to protect it.
+   - Click "Deploy" and authorize the script when prompted (you'll need to permit MailApp access).
+   - After deployment, copy the Web app URL (it will look like https://script.google.com/macros/s/XXXXXXXX/exec).
+
+5. Integrate with your site
+   - Open `c:\project\portfolio\index.html`.
+   - In the script near the top you have a line: const FORM_ENDPOINT = "";
+   - Paste the Web app URL between the quotes, for example:
+       const FORM_ENDPOINT = "https://script.google.com/macros/s/XXXXXXXX/exec";
+
+   - If you set a SECRET in the Apps Script, also add the same secret to the payload the site sends. Edit the payload in the site's JS (where it builds `payload`) to include the secret field, e.g.:
+
+       const payload = {
+         to: EMAIL_TO,
+         subject: 'connection lead request',
+         name,
+         email,
+         message,
+         source: window.location.href,
+         timestamp: new Date().toISOString(),
+         secret: 'your-same-secret-here'
+       };
+
+     Replace 'your-same-secret-here' with the secret you placed in the Apps Script.
+
+6. Test the flow
+   - Save `index.html` and open it in a browser (if running locally, ensure the page can send network requests to the web app URL — the web app URL is public so it should work).
+   - Fill the contact form and click Send. If FORM_ENDPOINT is set correctly and the secret matches, you should receive an email at `sahilsoni.ds@gmail.com`.
+
+Notes and security
+------------------
+- The email will be sent by the Google account that deploys the Apps Script (the account you used to deploy). The script sets `replyTo` to the visitor email so you can reply directly.
+- Google Apps Script has sending quotas (daily limits). For low-volume contact forms this is fine.
+- Keep the secret private. If you leave SECRET blank, anyone can POST to the endpoint; use the secret to prevent abuse if you allow anonymous access.
+- If you prefer not to use a secret, set SECRET to an empty string and skip adding `secret` to the payload.
+
+If you want I can also:
+ - Update `index.html` to automatically include the secret in the payload and set `FORM_ENDPOINT` for you after you paste the web app URL and secret here.
+ - Generate a short Google Apps Script that also records submissions to a Google Sheet before sending email (useful for backup and audit).
+
+Paste the deployed web app URL and the secret value here when ready and I'll update `index.html` with the correct `FORM_ENDPOINT` and secret insertion for you.
