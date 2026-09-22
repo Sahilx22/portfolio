@@ -15,10 +15,40 @@ type Entry = {
   chips: string[];
 };
 
-const TABS: Record<'backend' | 'database' | 'analytics', { label: string; entries: Entry[] }> = {
+const TABS: Record<'aiml' | 'backend' | 'database' | 'analytics', { label: string; entries: Entry[] }> = {
+  aiml: {
+    label: 'AI/ML Engineering',
+    entries: [
+      {
+        company: 'Meritorious Global Infotech',
+        role: 'AI/ML Fullstack Engineer',
+        date: 'June 2026 to Present',
+        bullets: [
+          'Designed an agentic RAG system where the agent autonomously chooses between web search (Tavily), an analytics tool, or a SQL agent instead of following a fixed pipeline.',
+          'Built RBAC/ABAC enforced retrieval for an NBFC chatbot so internal staff and external users only ever access data they are permitted to.',
+          'Implemented semantic search with OpenAI embeddings plus a reranker stage over a Qdrant vector database for higher precision retrieval.',
+          'LoRA fine-tuned a local Qwen-3B model for on-prem inference, with human-in-the-loop approval flows for manager level changes.',
+          'Instrumented OpenTelemetry tracing across embedding, tool, and LLM calls for full agent-level observability.',
+        ],
+        chips: ['LangChain', 'Groq', 'Qdrant', 'LoRA', 'Qwen-3B', 'RBAC/ABAC'],
+      },
+    ],
+  },
   backend: {
     label: 'Backend Development',
     entries: [
+      {
+        company: 'Meritorious Global Infotech',
+        role: 'AI/ML Fullstack Engineer',
+        date: 'June 2026 to Present',
+        bullets: [
+          'Built a tool-calling agentic RAG system routing queries across open web search, an analytics tool, and a SQL agent, with a FastAPI backend and Next.js frontend.',
+          'Developed an RBAC/ABAC enterprise RAG chatbot for an NBFC with SQL agents and internal API-calling tools for account and transaction level queries.',
+          'Built human-in-the-loop approval workflows for manager level changes, orchestrated end to end with LangChain.',
+          'Integrated OpenTelemetry tracing across embedding calls, tool calls, and LLM generations for full request observability.',
+        ],
+        chips: ['FastAPI', 'Next.js', 'LangChain', 'Groq', 'OpenTelemetry'],
+      },
       {
         company: 'Katyayani Organics · Bhopal',
         role: 'Database Developer',
@@ -156,7 +186,7 @@ export default function Experience() {
             Where I&apos;ve worked.
           </h2>
           <p className="text-muted max-w-[480px] text-[0.95rem] leading-relaxed mb-10">
-            3 companies, 2+ years, real production systems. Explore by focus area.
+            4 companies, 2+ years, real production systems. Explore by focus area.
           </p>
         </Reveal>
 
