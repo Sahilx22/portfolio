@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0c0c0e;
+  --surface: #121214;
+  --card: #17181b;
+  --border: #28292d;
+  --accent: #b08968;
+  --accent-rgb: 176, 137, 104;
+  --accent2: #9a9fa8;
+  --accent2-rgb: 154, 159, 168;
+  --warm: #c9a769;
+  --text: #d6d7db;
+  --muted: #86878f;
+  --heading: #f2f2f4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--accent2);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--accent2);
+}
+
+.stack-tag {
+  background: rgba(var(--accent2-rgb), 0.06);
+  border: 1px solid rgba(var(--accent2-rgb), 0.12);
+  color: var(--accent2);
+  padding: 0.22rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+@keyframes blobFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(26px, -22px) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

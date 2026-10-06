@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sahil Soni: Backend & Database Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #08090d;
+  --surface: #0c0e13;
+  --card: #12141a;
+  --border: #21242c;
+  --accent: #6d7bff;
+  --accent-rgb: 109,123,255;
+  --accent2: #35d9b4;
+  --accent2-rgb: 53,217,180;
+  --accent3: #ffb454;
+  --text: #dde1ea;
+  --muted: #757c8a;
+  --heading: #f3f5f9;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;font-size:16px;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;cursor:auto;}
+
+/* SCROLL PROGRESS */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:300;pointer-events:none;background:rgba(var(--border-rgb,33,36,44),0.4);}
+.scroll-progress-bar{height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 12px rgba(var(--accent-rgb),0.6);}
+
+/* CURSOR GLOW */
+.cursor-glow{position:fixed;top:0;left:0;width:440px;height:440px;margin-left:-220px;margin-top:-220px;border-radius:50%;pointer-events:none;z-index:5;background:radial-gradient(circle,rgba(var(--accent-rgb),0.14) 0%,rgba(var(--accent2-rgb),0.06) 45%,transparent 70%);transform:translate3d(-1000px,-1000px,0);opacity:0;transition:opacity 0.5s ease;mix-blend-mode:screen;will-change:transform;}
+.cursor-glow.active{opacity:1;}
+@media (pointer:coarse){.cursor-glow{display:none;}}
+
+/* AMBIENT BACKGROUND PARTICLES */
+.bg-particles{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:0.6;pointer-events:none;}
+
+@media (prefers-reduced-motion: reduce){
+  .cursor-glow,.bg-particles{display:none;}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;background:transparent;backdrop-filter:none;border-bottom:1px solid transparent;transition:padding 0.35s cubic-bezier(.2,.8,.2,1),box-shadow 0.35s ease,background 0.35s ease,border-color 0.35s ease,backdrop-filter 0.35s ease;}
+nav.scrolled{padding:0.8rem 2rem;background:rgba(8,9,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 10px 40px rgba(0,0,0,0.35);}
+.nav-logo{font-family:var(--font-display);font-weight:700;font-size:1.2rem;color:var(--heading);letter-spacing:-0.02em;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{position:relative;color:var(--muted);text-decoration:none;font-size:0.875rem;font-weight:500;letter-spacing:0.02em;transition:color 0.25s;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-5px;width:0;height:1px;background:var(--accent2);transition:width 0.3s cubic-bezier(.2,.8,.2,1);}
+.nav-links a:hover{color:var(--accent2);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{position:relative;overflow:hidden;background:var(--accent);color:#fff;padding:0.5rem 1.25rem;border-radius:6px;font-size:0.875rem;font-weight:600;text-decoration:none;transition:all 0.25s cubic-bezier(.2,.8,.2,1);font-family:var(--font-display);}
+.nav-cta:hover{background:#525ff0;transform:translateY(-1px) scale(1.03);box-shadow:0 6px 20px rgba(var(--accent-rgb),0.35);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.25;}
+.hero-glow{position:absolute;top:20%;left:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(var(--accent-rgb),0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-glow2{position:absolute;bottom:10%;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(var(--accent2-rgb),0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-net{position:absolute;inset:0;width:100%;height:100%;opacity:0.55;}
+.hero-terminal{display:flex;align-items:center;gap:0.6rem;font-family:var(--font-mono);font-size:0.85rem;color:var(--accent2);margin:0 0 2.25rem;min-height:1.4em;}
+.hero-terminal .terminal-prompt{color:var(--accent);font-weight:500;}
+.hero-terminal .terminal-text{color:var(--muted);}
+.terminal-cursor{color:var(--accent);animation:blink 1s step-end infinite;}
+@keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+@media (prefers-reduced-motion: reduce){
+  .hero-net{display:none;}
+  .terminal-cursor{animation:none;}
+}
+.hero-content{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(var(--accent-rgb),0.1);border:1px solid rgba(var(--accent-rgb),0.3);padding:0.4rem 1rem;border-radius:100px;font-size:0.8rem;color:var(--accent);font-weight:500;margin-bottom:1.5rem;letter-spacing:0.05em;}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);}}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;color:var(--heading);margin-bottom:0.5rem;}
+.hero h1 .line2{color:var(--accent);}
+.hero-sub{font-size:1.15rem;color:var(--muted);max-width:520px;margin:1.25rem 0 2.5rem;font-weight:300;line-height:1.7;}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary,.btn-outline{will-change:transform;}
+.btn-primary{position:relative;overflow:hidden;background:var(--accent);color:#fff;padding:0.85rem 2rem;border-radius:8px;font-weight:600;text-decoration:none;font-family:var(--font-display);font-size:0.95rem;transition:background 0.25s,box-shadow 0.25s,transform 0.25s cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:0.5rem;}
+.btn-primary::after{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-20deg);transition:left 0.65s ease;}
+.btn-primary:hover::after{left:130%;}
+.btn-primary:hover{background:#525ff0;transform:translateY(-2px);box-shadow:0 8px 30px rgba(var(--accent-rgb),0.3);}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:0.85rem 2rem;border-radius:8px;font-weight:500;text-decoration:none;font-family:var(--font-display);font-size:0.95rem;transition:all 0.25s cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:0.5rem;}
+.btn-outline:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(var(--accent2-rgb),0.15);}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--border);}
+.stat-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--heading);}
+.stat-num span{color:var(--accent);}
+.stat-label{font-size:0.8rem;color:var(--muted);margin-top:0.2rem;letter-spacing:0.04em;}
+
+/* SECTION SHARED */
+section{padding:5rem 2rem;position:relative;}
+.container{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.section-decorated{overflow:hidden;}
+.section-blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:0.5;animation:blobFloat 16s ease-in-out infinite;will-change:transform;}
+.blob-a{background:radial-gradient(circle,rgba(var(--accent-rgb),0.28),transparent 70%);width:420px;height:420px;top:-140px;left:-120px;}
+.blob-b{background:radial-gradient(circle,rgba(var(--accent2-rgb),0.22),transparent 70%);width:360px;height:360px;bottom:-140px;right:-100px;animation-delay:-8s;}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(26px,-22px) scale(1.08);}}
+.section-label{display:inline-flex;align-items:center;gap:0.75rem;font-size:0.75rem;letter-spacing:0.12em;color:var(--accent2);font-weight:600;text-transform:uppercase;margin-bottom:1rem;}
+.section-label::before{content:'';width:24px;height:1px;background:var(--accent2);}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--heading);letter-spacing:-0.02em;margin-bottom:1rem;}
+.section-desc{color:var(--muted);max-width:480px;font-size:0.95rem;line-height:1.75;margin-bottom:3rem;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.about-text p{color:var(--muted);line-height:1.8;margin-bottom:1rem;font-size:0.95rem;}
+.about-text p strong{color:var(--text);}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem;}
+.tag{background:rgba(var(--accent-rgb),0.08);border:1px solid rgba(var(--accent-rgb),0.2);color:var(--accent);padding:0.35rem 0.85rem;border-radius:100px;font-size:0.78rem;font-weight:500;}
+.about-cards{display:flex;flex-direction:column;gap:1rem;}
+.about-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;transition:border-color 0.2s,opacity 0.6s cubic-bezier(.16,.84,.44,1),transform 0.6s cubic-bezier(.16,.84,.44,1);opacity:0;transform:translateY(18px) scale(0.97);}
+.about-card.visible{opacity:1;transform:translateY(0);}
+.about-card:hover{border-color:var(--accent);}
+.about-card-icon{font-size:1.4rem;margin-top:0.1rem;display:inline-block;transition:transform 0.35s cubic-bezier(.2,.8,.2,1);}
+.about-card:hover .about-card-icon{transform:scale(1.18) rotate(-6deg);}
+.about-card-title{font-family:var(--font-display);font-weight:700;color:var(--heading);font-size:0.95rem;margin-bottom:0.25rem;}
+.about-card-desc{font-size:0.82rem;color:var(--muted);}
+
+/* SKILLS */
+.skills-bg{background:rgba(12,14,19,0.65);backdrop-filter:blur(30px);}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.skill-category{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.75rem;transition:all 0.3s;opacity:0;transform:translateY(18px) scale(0.97);}
+.skill-category.visible{opacity:1;transform:translateY(0);}
+.skill-category.visible:hover{border-color:var(--accent);transform:translateY(-4px);}
+.skill-cat-label{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent2);font-weight:600;margin-bottom:1rem;}
+.skill-cat-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--heading);margin-bottom:1.25rem;}
+.skill-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem;}
+.skill-name{font-size:0.85rem;color:var(--text);}
+.skill-bar-wrap{width:120px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.skill-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;}
+.skill-tag{background:rgba(var(--accent2-rgb),0.07);border:1px solid rgba(var(--accent2-rgb),0.15);color:var(--accent2);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.75rem;}
+
+/* EXPERIENCE */
+.exp-tabs{display:flex;gap:0.5rem;margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:0;}
+.exp-tab{background:none;border:none;color:var(--muted);font-family:var(--font-display);font-size:0.9rem;font-weight:600;padding:0.75rem 1.25rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
+.exp-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.exp-tab:hover:not(.active){color:var(--text);}
+.exp-panel{display:none;}
+.exp-panel.active{display:block;}
+.exp-timeline{position:relative;padding-left:2rem;--fill:0%;}
+.exp-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border);}
+.exp-timeline::after{content:'';position:absolute;left:0;top:0;width:1px;height:var(--fill);background:linear-gradient(to bottom,var(--accent),var(--accent2));box-shadow:0 0 10px rgba(var(--accent-rgb),0.6);transition:height 0.12s linear;}
+.exp-entry{position:relative;margin-bottom:2.5rem;opacity:0;transform:translateY(20px) translateX(-6px);transition:opacity 0.6s cubic-bezier(.16,.84,.44,1),transform 0.6s cubic-bezier(.16,.84,.44,1);}
+.exp-entry.visible{opacity:1;transform:translateY(0) translateX(0);}
+.exp-entry::before{content:'';position:absolute;left:-2.35rem;top:0.35rem;width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.3s ease,box-shadow 0.3s ease;}
+.exp-entry.visible::before{background:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.2),0 0 12px rgba(var(--accent-rgb),0.5);}
+.exp-company{font-size:0.75rem;color:var(--accent2);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;}
+.exp-role{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--heading);margin-bottom:0.25rem;}
+.exp-date{font-size:0.78rem;color:var(--muted);margin-bottom:0.9rem;}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.exp-bullets li{font-size:0.875rem;color:var(--muted);padding-left:1.2rem;position:relative;line-height:1.65;}
+.exp-bullets li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:0.75rem;top:0.1rem;}
+.exp-bullets li strong{color:var(--text);}
+.exp-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.85rem;}
+.exp-chip{background:rgba(var(--accent-rgb),0.08);border:1px solid rgba(var(--accent-rgb),0.15);color:var(--accent);padding:0.2rem 0.65rem;border-radius:5px;font-size:0.72rem;font-weight:500;}
+
+/* PROJECTS — editorial, cinematic storytelling showcase (no cards) */
+.projects-showcase{display:flex;flex-direction:column;gap:clamp(5rem,9vw,8rem);padding-top:1rem;}
+.story-project{display:flex;align-items:center;gap:clamp(2.5rem,6vw,5rem);position:relative;}
+.story-project:nth-child(even){flex-direction:row-reverse;}
+
+.story-visual{flex:0 0 44%;max-width:460px;position:relative;perspective:1000px;opacity:0;transform:translateX(-90px) scale(0.94);filter:blur(8px);transition:opacity 0.6s cubic-bezier(.16,.84,.44,1),transform 0.6s cubic-bezier(.16,.84,.44,1),filter 0.6s cubic-bezier(.16,.84,.44,1);}
+.story-project:nth-child(even) .story-visual{transform:translateX(90px) scale(0.94);}
+.story-project.visible .story-visual{opacity:1;transform:translateX(0) scale(1);filter:blur(0);}
+.story-visual-glow{position:absolute;inset:-18%;background:radial-gradient(circle,rgba(var(--accent-rgb),0.22),transparent 65%);filter:blur(70px);opacity:0;transition:opacity 0.8s ease 0.3s;pointer-events:none;z-index:0;}
+.story-project.visible .story-visual-glow{opacity:1;}
+.story-number{position:absolute;top:-2.6rem;left:-0.2rem;font-family:var(--font-mono);font-size:4.5rem;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(var(--accent-rgb),0.28);line-height:1;z-index:0;pointer-events:none;user-select:none;}
+.story-project:nth-child(even) .story-number{left:auto;right:-0.2rem;}
+
+.story-mockup{position:relative;z-index:1;border-radius:20px;background:linear-gradient(150deg,rgba(18,20,26,0.55),rgba(12,14,19,0.4));backdrop-filter:blur(6px);border:1px solid var(--border);overflow:visible;box-shadow:0 30px 70px rgba(0,0,0,0.45);transition:box-shadow 0.4s ease,border-color 0.4s ease;transform-style:preserve-3d;will-change:transform;}
+.story-project.visible:hover .story-mockup{border-color:rgba(var(--accent-rgb),0.4);box-shadow:0 40px 90px rgba(0,0,0,0.5);}
+.mockup-bar{display:flex;gap:0.4rem;padding:0.9rem 1.1rem;border-bottom:1px solid var(--border);position:relative;z-index:2;border-radius:20px 20px 0 0;background:rgba(10,12,16,0.5);}
+.mockup-bar span{width:8px;height:8px;border-radius:50%;background:var(--border);}
+/* small accent motes that drift just outside the panel edge, so the scene reads as continuing
+   past the canvas boundary rather than stopping abruptly at it */
+.story-visual::before,.story-visual::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:var(--accent2);opacity:0.5;filter:blur(1px);box-shadow:0 0 12px 2px rgba(var(--accent2-rgb),0.6);animation:motePulse 4.5s ease-in-out infinite;pointer-events:none;z-index:2;}
+.story-visual::before{top:6px;left:-8px;animation-delay:0s;}
+.story-visual::after{bottom:10px;right:-6px;background:var(--accent);box-shadow:0 0 12px 2px rgba(var(--accent-rgb),0.6);animation-delay:2.2s;}
+@keyframes motePulse{0%,100%{transform:translateY(0) scale(1);opacity:0.35;}50%{transform:translateY(-6px) scale(1.3);opacity:0.8;}}
+.mockup-3d{width:100%;height:260px;position:relative;overflow:hidden;border-radius:0 0 20px 20px;}
+.mockup-3d canvas{display:block;width:100%!important;height:100%!important;}
+.mockup-3d-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.mockup-3d-fallback svg{width:56px;height:56px;stroke:var(--accent);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:0.5;}
+
+.story-content{flex:1;min-width:0;position:relative;z-index:1;}
+.story-eyebrow{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1rem;opacity:0;transform:translateY(14px);transition:opacity 0.45s cubic-bezier(.16,.84,.44,1) 0.08s,transform 0.45s cubic-bezier(.16,.84,.44,1) 0.08s;}
+.story-title{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--heading);letter-spacing:-0.02em;margin-bottom:1.1rem;opacity:0;transform:translateY(20px);transition:opacity 0.5s cubic-bezier(.16,.84,.44,1) 0.14s,transform 0.5s cubic-bezier(.16,.84,.44,1) 0.14s;}
+.story-desc{font-size:1rem;color:var(--muted);line-height:1.8;max-width:480px;margin-bottom:1.5rem;opacity:0;transform:translateY(20px);transition:opacity 0.5s cubic-bezier(.16,.84,.44,1) 0.2s,transform 0.5s cubic-bezier(.16,.84,.44,1) 0.2s;}
+.story-stack{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.75rem;}
+.story-stack .stack-tag{opacity:0;transform:translateY(10px);transition:opacity 0.4s cubic-bezier(.16,.84,.44,1),transform 0.4s cubic-bezier(.16,.84,.44,1);}
+.story-stack .stack-tag:nth-child(1){transition-delay:0.26s}
+.story-stack .stack-tag:nth-child(2){transition-delay:0.3s}
+.story-stack .stack-tag:nth-child(3){transition-delay:0.34s}
+.story-stack .stack-tag:nth-child(4){transition-delay:0.38s}
+.story-stack .stack-tag:nth-child(5){transition-delay:0.42s}
+.story-actions{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;transform:translateY(14px);transition:opacity 0.45s cubic-bezier(.16,.84,.44,1) 0.48s,transform 0.45s cubic-bezier(.16,.84,.44,1) 0.48s;}
+.story-project.visible .story-eyebrow,
+.story-project.visible .story-title,
+.story-project.visible .story-desc,
+.story-project.visible .story-stack .stack-tag,
+.story-project.visible .story-actions{opacity:1;transform:translateY(0);}
+
+.story-toggle{background:none;border:1px solid var(--border);color:var(--text);padding:0.7rem 1.5rem;border-radius:8px;font-weight:500;font-family:var(--font-display);font-size:0.9rem;cursor:pointer;transition:all 0.25s cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:0.5rem;}
+.story-toggle:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-2px);}
+.story-project.expanded .story-toggle .hint-text::after{content:'Show less ↑';}
+
+.project-expand{display:none;border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.75rem;max-width:560px;opacity:0;transform:translateY(14px);transition:opacity 0.45s cubic-bezier(.16,.84,.44,1) 0.54s,transform 0.45s cubic-bezier(.16,.84,.44,1) 0.54s;}
+.story-project.expanded .project-expand{display:block;}
+.story-project.visible .project-expand{opacity:1;transform:translateY(0);}
+.project-expand-title{font-size:0.75rem;color:var(--accent2);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.6rem;}
+.project-expand ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.project-expand li{font-size:0.85rem;color:var(--muted);padding-left:1.1rem;position:relative;line-height:1.6;}
+.project-expand li::before{content:'·';position:absolute;left:0;color:var(--accent);}
+.stack-tag{background:rgba(var(--accent2-rgb),0.06);border:1px solid rgba(var(--accent2-rgb),0.12);color:var(--accent2);padding:0.22rem 0.7rem;border-radius:4px;font-size:0.75rem;}
+.hint-text::after{content:'Click to expand ↓';}
+
+@media(max-width:900px){
+  .story-project,.story-project:nth-child(even){flex-direction:column;align-items:stretch;gap:2.5rem;}
+  .story-visual,.story-project:nth-child(even) .story-visual{transform:translateY(30px) scale(0.96);max-width:100%;flex:0 0 auto;}
+  .story-project.visible .story-visual{transform:translateY(0) scale(1);}
+  .story-number{display:none;}
+}
+@media (prefers-reduced-motion: reduce){
+  .story-visual,.story-eyebrow,.story-title,.story-desc,.story-stack .stack-tag,.story-actions,.project-expand{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}
+  .story-visual-glow{opacity:1!important;}
+}
+
+/* CONTACT */
+.contact-bg{background:rgba(12,14,19,0.65);backdrop-filter:blur(30px);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:1.25rem;margin-top:1rem;}
+.contact-item{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all 0.2s;opacity:0;transform:translateY(14px);}
+.contact-item.visible{opacity:1;transform:translateY(0);}
+.contact-item.visible:hover{border-color:var(--accent2);transform:translateX(4px);}
+.contact-item-icon{font-size:1.2rem;width:40px;height:40px;background:rgba(var(--accent-rgb),0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:transform 0.35s cubic-bezier(.2,.8,.2,1),background 0.3s ease;}
+.contact-item:hover .contact-item-icon{transform:scale(1.12) rotate(-6deg);background:rgba(var(--accent-rgb),0.2);}
+.contact-item-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.15rem;}
+.contact-item-val{font-size:0.9rem;color:var(--text);font-weight:500;}
+.contact-form{display:flex;flex-direction:column;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-label{font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.04em;}
+.form-input,.form-textarea{background:var(--card);border:1px solid var(--border);color:var(--text);padding:0.85rem 1rem;border-radius:8px;font-family:var(--font-body);font-size:0.9rem;transition:border-color 0.2s;outline:none;width:100%;}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-submit{position:relative;overflow:hidden;background:var(--accent);color:#fff;border:none;padding:0.9rem 2rem;border-radius:8px;font-family:var(--font-display);font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.25s,box-shadow 0.25s,transform 0.25s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.form-submit::after{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-20deg);transition:left 0.65s ease;}
+.form-submit:hover::after{left:130%;}
+.form-submit:hover{background:#525ff0;transform:translateY(-2px);box-shadow:0 8px 24px rgba(var(--accent-rgb),0.3);}
+
+/* FOOTER */
+footer{padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-text{font-size:0.82rem;color:var(--muted);}
+.footer-text span{color:var(--accent);}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{position:relative;font-size:0.82rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.footer-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent2);transition:width 0.3s cubic-bezier(.2,.8,.2,1);}
+.footer-links a:hover{color:var(--accent2);}
+.footer-links a:hover::after{width:100%;}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(28px) scale(0.98);transition:opacity 0.8s cubic-bezier(.16,.84,.44,1),transform 0.8s cubic-bezier(.16,.84,.44,1);}
+.fade-up.visible{opacity:1;transform:translateY(0) scale(1);}
+
+/* Staggered reveal for card grids */
+.about-card:nth-child(2){transition-delay:0.08s}
+.about-card:nth-child(3){transition-delay:0.16s}
+.about-card:nth-child(4){transition-delay:0.24s}
+.skill-category:nth-child(2){transition-delay:0.06s}
+.skill-category:nth-child(3){transition-delay:0.12s}
+.skill-category:nth-child(4){transition-delay:0.18s}
+.skill-category:nth-child(5){transition-delay:0.24s}
+.skill-category:nth-child(6){transition-delay:0.3s}
+.contact-item:nth-child(2){transition-delay:0.08s}
+.contact-item:nth-child(3){transition-delay:0.16s}
+.contact-item:nth-child(4){transition-delay:0.24s}
+.exp-entry:nth-child(2){transition-delay:0.1s}
+.exp-entry:nth-child(3){transition-delay:0.2s}
+@media (prefers-reduced-motion: reduce){
+  .fade-up,.about-card,.skill-category,.contact-item,.exp-entry{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}
+  .exp-entry::before{background:var(--accent)!important;}
+  .section-blob{animation:none!important;}
+}
+
+/* MOBILE NAV */
+.hamburger{display:none;background:none;border:none;cursor:pointer;color:var(--text);font-size:1.25rem;}
+.mobile-menu{display:none;}
+
+@media(max-width:900px){
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .hero-stats{gap:2rem;}
+}
+@media(max-width:650px){
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:block;}
+  .skills-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:2.5rem;}
+  .hero-stats{flex-wrap:wrap;gap:1.5rem;}
+  footer{flex-direction:column;gap:1rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<canvas class="bg-particles" id="bg-particles"></canvas>
+<div class="scroll-progress"><div class="scroll-progress-bar" id="scroll-progress-bar"></div></div>
+<div class="cursor-glow" id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Sahil<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas class="hero-net" id="hero-net"></canvas>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for opportunities</div>
+    <h1>
+      Backend &amp; Database<br>
+      <span class="line2">Developer.</span>
+    </h1>
+    <p class="hero-sub">
+      I build <strong>data systems and backend APIs</strong> that power real products.
+      From migrating databases to building CRMs for 250+ agents I turn complex problems into clean, working systems.
+    </p>
+    <div class="hero-terminal">
+      <span class="terminal-prompt">&gt;</span>
+      <span class="terminal-text" id="terminal-text"></span><span class="terminal-cursor">_</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+  <a href="sahil-ds.pdf" class="btn-outline" download="Sahil-Soni-Resume.pdf">Download Resume ↗</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+          <div class="stat-num">2<span>+</span></div>
+          <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">250<span>+</span></div>
+        <div class="stat-label">Agents Scaled To</div>
+      </div>
+      <div>
+        <div class="stat-num">5M<span>+</span></div>
+        <div class="stat-label">Records Processed</div>
+      </div>
+      <div>
+        <div class="stat-num">60<span>%</span></div>
+        <div class="stat-label">Query Speed Gained</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section-decorated">
+  <div class="section-blob blob-a"></div>
+  <div class="section-blob blob-b"></div>
+  <div class="container">
+    <div class="about-grid fade-up">
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">I make data work for businesses.</h2>
+        <p>I'm a <strong>Backend and Database Developer</strong> based in Bhopal with 2+ years of hands-on experience building systems that actually scale. My work spans database migrations, API development, ETL pipelines, and CRM platforms.</p>
+        <p>I started with <strong>data science and analytics</strong> which gives me an edge in understanding not just how to store data, but how to make it meaningful. I've worked with startups from early stage automation to production systems serving hundreds of users.</p>
+        <p>Currently exploring roles where I can drive backend architecture and data infrastructure decisions.</p>
+        <div class="about-tags">
+          <span class="tag">Python</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">ETL Pipelines</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">NLP / ML</span>
+        </div>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-card-icon">🗄️</div>
+          <div>
+            <div class="about-card-title">Database Architecture</div>
+            <div class="about-card-desc">Schema design, query optimisation, migrations, and data integrity across PostgreSQL, MongoDB, and Supabase.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">⚙️</div>
+          <div>
+            <div class="about-card-title">Backend Development</div>
+            <div class="about-card-desc">REST APIs, real time systems with WebSockets, and workflow automation using FastAPI, Flask, and Django.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">📊</div>
+          <div>
+            <div class="about-card-title">Data & Analytics</div>
+            <div class="about-card-desc">ETL pipelines, Power BI dashboards, NLP models, and ML pipelines for business intelligence.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔗</div>
+          <div>
+            <div class="about-card-title">Systems Integration</div>
+            <div class="about-card-desc">WhatsApp API, Firebase, FCM, n8n workflows, and third-party logistics integrations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-bg section-decorated">
+  <div class="section-blob blob-a"></div>
+  <div class="section-blob blob-b"></div>
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Technical Skills</div>
+      <h2 class="section-title">What I work with.</h2>
+      <p class="section-desc">A breakdown of my core technical skills across backend, database, data science, and tooling.</p>
+    </div>
+    <div class="skills-grid fade-up">
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Backend</div>
+        <div class="skill-cat-title">APIs & Frameworks</div>
+        <div class="skill-item"><span class="skill-name">FastAPI</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Flask / Django</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="80" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">NodeJS / NestJS</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="65" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">WebSockets</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="78" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">REST APIs</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92" style="width:0"></div></div></div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Database</div>
+        <div class="skill-cat-title">Data Layer</div>
+        <div class="skill-item"><span class="skill-name">PostgreSQL</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">MongoDB</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="85" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Supabase</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="80" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Schema Design</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="82" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">ETL Pipelines</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="75" style="width:0"></div></div></div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Data Science</div>
+        <div class="skill-cat-title">ML & Analytics</div>
+        <div class="skill-item"><span class="skill-name">Python (Pandas/NumPy)</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">NLP (spaCy, BERT)</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="78" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">ML Models (XGBoost)</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="72" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Power BI / Tableau</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="80" style="width:0"></div></div></div>
+        <div class="skill-item"><span class="skill-name">PySpark</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="60" style="width:0"></div></div></div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Languages</div>
+        <div class="skill-cat-title">Code</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">R</span><span class="skill-tag">App Script</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Cloud & DevOps</div>
+        <div class="skill-cat-title">Infrastructure</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS</span><span class="skill-tag">Docker</span><span class="skill-tag">Linux</span><span class="skill-tag">Firebase</span><span class="skill-tag">MCP Server</span><span class="skill-tag">n8n</span><span class="skill-tag">CI/CD</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">Integration</div>
+        <div class="skill-cat-title">Tools & Platforms</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Salesforce</span><span class="skill-tag">WhatsApp API</span><span class="skill-tag">OAuth</span><span class="skill-tag">FCM</span><span class="skill-tag">Google Sheets API</span><span class="skill-tag">WebSockets</span><span class="skill-tag">GA4 Analytics</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section-decorated">
+  <div class="section-blob blob-a"></div>
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">Where I've worked.</h2>
+      <p class="section-desc">3 companies, 2+ years, real production systems. Explore by focus area.</p>
+    </div>
+    <div class="fade-up">
+      <div class="exp-tabs">
+        <button class="exp-tab active" onclick="switchTab('backend')">Backend Development</button>
+        <button class="exp-tab" onclick="switchTab('database')">Database Work</button>
+        <button class="exp-tab" onclick="switchTab('analytics')">Data & Analytics</button>
+      </div>
+
+      <!-- BACKEND TAB -->
+      <div class="exp-panel active" id="tab-backend">
+        <div class="exp-timeline">
+          <div class="exp-entry">
+            <div class="exp-company">Katyayani Organics · Bhopal</div>
+            <div class="exp-role">Database Developer</div>
+            <div class="exp-date">June 2025 to Mar 2026</div>
+            <ul class="exp-bullets">
+              <li>Built <strong>FastAPI</strong> backend for a full CRM serving <strong>250+ sales agents</strong> with order management, inventory tracking, and shipping integrations.</li>
+              <li>Implemented <strong>WebSocket</strong> and <strong>Firebase FCM</strong> real time updates for field agents, reducing support escalations by <strong>35%</strong>.</li>
+              <li>Designed QR based case tracking, inward/outward logistics, and shipping label generation connected to delivery partners.</li>
+              <li>Built role based access control so agents only see their own leads, managers see aggregated data across 7 org tiers.</li>
+              <li>Implemented live agent activity tracking using <strong>FCM</strong> triggers to record cumulative call times and idle hours, improving productivity by <strong>~50%</strong>.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">FastAPI</span><span class="exp-chip">WebSockets</span><span class="exp-chip">Firebase</span><span class="exp-chip">PostgreSQL</span><span class="exp-chip">Docker</span></div>
+          </div>
+          <div class="exp-entry">
+            <div class="exp-company">Icon Tensile and Structure · Indore</div>
+            <div class="exp-role">Analyst, Automation & BI</div>
+            <div class="exp-date">Mar 2024 to Jun 2025</div>
+            <ul class="exp-bullets">
+              <li>Built internal tools using <strong>Flask and REST APIs</strong> for data extraction, reporting, and workflow automation.</li>
+              <li>Integrated <strong>WhatsApp Business API</strong> for automated client messaging across <strong>500+ clients</strong>.</li>
+              <li>Automated 6+ manual processes saving <strong>20+ hours per week</strong> using Python and Google Apps Script.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">Flask</span><span class="exp-chip">Python</span><span class="exp-chip">REST APIs</span><span class="exp-chip">Google Apps Script</span></div>
+          </div>
+          <div class="exp-entry">
+            <div class="exp-company">Deep Thought EduTech · Hyderabad</div>
+            <div class="exp-role">Data Scientist</div>
+            <div class="exp-date">Sept 2023 to Feb 2024</div>
+            <ul class="exp-bullets">
+              <li>Deployed ML models via <strong>Flask REST APIs</strong> integrated into the HR portal for automated candidate screening.</li>
+              <li>Built data pipeline processing <strong>10K+ feedback records</strong> per term and delivering insights to a Power BI dashboard.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">Flask</span><span class="exp-chip">scikit-learn</span><span class="exp-chip">REST APIs</span><span class="exp-chip">Python</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATABASE TAB -->
+      <div class="exp-panel" id="tab-database">
+        <div class="exp-timeline">
+          <div class="exp-entry">
+            <div class="exp-company">Katyayani Organics · Bhopal</div>
+            <div class="exp-role">Database Developer</div>
+            <div class="exp-date">June 2025 to Mar 2026</div>
+            <ul class="exp-bullets">
+              <li>Migrated production database from <strong>MongoDB to Supabase (PostgreSQL)</strong>, redesigned schema with universal keys across the entire userbase.</li>
+              <li>Optimised <strong>PostgreSQL</strong> queries cutting average response time by <strong>60%</strong> for concurrent order and inventory operations.</li>
+              <li>Built ETL pipelines streaming live transactional data into <strong>Power BI</strong> for real time sales and warehouse dashboards.</li>
+              <li>Cleaned and standardised <strong>100K+ legacy records</strong> across product, customer and order tables, improving data accuracy by <strong>45%</strong>.</li>
+              <li>Masked sensitive contact fields and enforced row-level access so each agent only sees their own customer data.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">PostgreSQL</span><span class="exp-chip">MongoDB</span><span class="exp-chip">Supabase</span><span class="exp-chip">ETL</span><span class="exp-chip">Power BI</span></div>
+          </div>
+          <div class="exp-entry">
+            <div class="exp-company">Icon Tensile and Structure · Indore</div>
+            <div class="exp-role">Analyst, Automation & BI</div>
+            <div class="exp-date">Mar 2024 to Jun 2025</div>
+            <ul class="exp-bullets">
+              <li>Built a live sales tracking system on <strong>Google Sheets API</strong> feeding <strong>Power BI</strong> dashboards, moving reporting from weekly to daily.</li>
+              <li>Analysed 2 years of project data to surface cost and timeline trends for leadership decision-making.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">Google Sheets API</span><span class="exp-chip">Power BI</span><span class="exp-chip">Python</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS TAB -->
+      <div class="exp-panel" id="tab-analytics">
+        <div class="exp-timeline">
+          <div class="exp-entry">
+            <div class="exp-company">Deep Thought EduTech · Hyderabad</div>
+            <div class="exp-role">Data Scientist</div>
+            <div class="exp-date">Sept 2023 to Feb 2024</div>
+            <ul class="exp-bullets">
+              <li>Built a hiring pipeline using <strong>NLP (spaCy, NLTK)</strong> and <strong>ML classifiers (Random Forest, XGBoost)</strong> that screened <strong>500+ candidates per cycle</strong>.</li>
+              <li>Developed resume parser using <strong>Named Entity Recognition</strong> to extract structured data from CVs, then matched them to job descriptions using TF-IDF similarity at <strong>83% accuracy</strong>.</li>
+              <li>Reduced recruiter workload by <strong>80%</strong> and saved <strong>24 hours per week</strong> of manual screening effort.</li>
+              <li>Processed <strong>10K+ student feedback records</strong> per term using sentiment analysis (VADER + BERT) and LDA topic modelling.</li>
+              <li>Delivered <strong>Power BI dashboards</strong> by course and instructor adopted across <strong>4 programme tracks</strong>, driving <strong>15% improvement</strong> in student experience each cycle.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">NLP</span><span class="exp-chip">spaCy</span><span class="exp-chip">BERT</span><span class="exp-chip">XGBoost</span><span class="exp-chip">Power BI</span><span class="exp-chip">LDA</span></div>
+          </div>
+          <div class="exp-entry">
+            <div class="exp-company">Icon Tensile and Structure · Indore</div>
+            <div class="exp-role">Analyst, Automation & BI</div>
+            <div class="exp-date">Mar 2024 to Jun 2025</div>
+            <ul class="exp-bullets">
+              <li>Analysed sales and operations workflows to identify bottlenecks, then automated <strong>6+ manual processes</strong> saving <strong>20+ hours weekly</strong>.</li>
+              <li>Cut quotation turnaround from <strong>1.5 hours to under 10 minutes</strong> using Python automation handling <strong>30+ quotes per week</strong>.</li>
+              <li>Built live Power BI dashboards improving management decision speed by <strong>50%</strong>.</li>
+            </ul>
+            <div class="exp-chips"><span class="exp-chip">Python</span><span class="exp-chip">Power BI</span><span class="exp-chip">Google Sheets</span><span class="exp-chip">Analytics</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-decorated" style="background:rgba(12,14,19,0.65);backdrop-filter:blur(30px);">
+  <div class="section-blob blob-a"></div>
+  <div class="section-blob blob-b"></div>
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Projects</div>
+      <h2 class="section-title">Things I've built.</h2>
+      <p class="section-desc">A closer look at four products, end to end.</p>
+    </div>
+    <div class="projects-showcase">
+
+      <div class="story-project expanded">
+        <span class="story-number">01</span>
+        <div class="story-visual">
+          <div class="story-visual-glow"></div>
+          <div class="story-mockup">
+            <div class="mockup-bar"><span></span><span></span><span></span></div>
+            <div class="mockup-3d" data-scene="trackpack">
+              <div class="mockup-3d-fallback"><svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8"/><path d="M3 8v8l9 5 9-5V8"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="story-content">
+          <div class="story-eyebrow">Product 01 — Warehouse Operations</div>
+          <h3 class="story-title">TrackPack: Inventory &amp; Order System</h3>
+          <p class="story-desc">Warehouse management platform for SKU tracking, QR based case tracing, and real time delivery updates for 250+ agents.</p>
+          <div class="story-stack">
+            <span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">MongoDB</span><span class="stack-tag">Firebase</span><span class="stack-tag">WebSockets</span>
+          </div>
+          <div class="story-actions">
+            <a href="https://github.com/sahilx22" target="_blank" class="btn-outline">GitHub ↗</a>
+            <button type="button" class="story-toggle" onclick="toggleProject(this.closest('.story-project'))">🔍 <span class="hint-text"></span></button>
+          </div>
+          <div class="project-expand">
+            <div class="project-expand-title">What I built</div>
+            <ul>
+              <li>Real time driver tracking with WebSockets and Firebase FCM push notifications</li>
+              <li>QR based case level traceability from warehouse to final delivery</li>
+              <li>Shipping label generation integrated with external delivery partners</li>
+              <li>Inward/outward logistics APIs with bin management and SKU transfers</li>
+              <li>Role based data access ensuring agents only see their own orders</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-project expanded">
+        <span class="story-number">02</span>
+        <div class="story-visual">
+          <div class="story-visual-glow"></div>
+          <div class="story-mockup">
+            <div class="mockup-bar"><span></span><span></span><span></span></div>
+            <div class="mockup-3d" data-scene="salescrm">
+              <div class="mockup-3d-fallback"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13.5" rx="2"/><path d="M8 7V5.5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2V7"/><path d="M2.5 12.5h19"/><path d="M10.8 12.5v1.8h2.4v-1.8"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="story-content">
+          <div class="story-eyebrow">Product 02 — Sales Platform</div>
+          <h3 class="story-title">Sales CRM: Full Stack Platform</h3>
+          <p class="story-desc">End to end CRM for a sales org of 250+ agents with multi role dashboards, lead automation, and revenue analytics.</p>
+          <div class="story-stack">
+            <span class="stack-tag">React (TS)</span><span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">n8n</span><span class="stack-tag">OAuth</span>
+          </div>
+          <div class="story-actions">
+            <a href="https://github.com/sahilx22" target="_blank" class="btn-outline">GitHub ↗</a>
+            <button type="button" class="story-toggle" onclick="toggleProject(this.closest('.story-project'))">🔍 <span class="hint-text"></span></button>
+          </div>
+          <div class="project-expand">
+            <div class="project-expand-title">What I built</div>
+            <ul>
+              <li>Multi role dashboards for Agent, Floor Manager, and Sales Head with separate permissions</li>
+              <li>n8n workflow automation for performance based lead assignment and round-robin distribution</li>
+              <li>Revenue analytics and order lifecycle tracking across the full sales funnel</li>
+              <li>Real time agronomy suggestions via WebSockets integrated into agent view</li>
+              <li>FCM notifications and OAuth authentication across the platform</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-project expanded">
+        <span class="story-number">03</span>
+        <div class="story-visual">
+          <div class="story-visual-glow"></div>
+          <div class="story-mockup">
+            <div class="mockup-bar"><span></span><span></span><span></span></div>
+            <div class="mockup-3d" data-scene="recruitect">
+              <div class="mockup-3d-fallback"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="4.2" cy="6" r="1.5"/><circle cx="19.8" cy="6" r="1.5"/><circle cx="4.2" cy="18" r="1.5"/><circle cx="19.8" cy="18" r="1.5"/><path d="M9.7 10.3 5.4 7"/><path d="M14.3 10.3 18.6 7"/><path d="M9.7 13.7 5.4 17"/><path d="M14.3 13.7 18.6 17"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="story-content">
+          <div class="story-eyebrow">Product 03 — AI Hiring</div>
+          <h3 class="story-title">Recruitect: AI Hiring Pipeline</h3>
+          <p class="story-desc">ML powered hiring automation that screened 500+ candidates per cycle, cutting recruiter effort by 80%.</p>
+          <div class="story-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">spaCy</span><span class="stack-tag">XGBoost</span><span class="stack-tag">Flask</span><span class="stack-tag">NLP</span>
+          </div>
+          <div class="story-actions">
+            <a href="https://github.com/sahilx22" target="_blank" class="btn-outline">GitHub ↗</a>
+            <button type="button" class="story-toggle" onclick="toggleProject(this.closest('.story-project'))">🔍 <span class="hint-text"></span></button>
+          </div>
+          <div class="project-expand">
+            <div class="project-expand-title">What I built</div>
+            <ul>
+              <li>NER based resume parser to extract structured data from unstructured CVs</li>
+              <li>TF-IDF + cosine similarity engine matching candidates to job descriptions</li>
+              <li>Random Forest and XGBoost classifiers scoring culture fit and skill alignment</li>
+              <li>Flask REST API integrated into the HR portal with model monitoring</li>
+              <li>83% culture fit accuracy, 24 hours saved weekly in manual screening</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-project expanded">
+        <span class="story-number">04</span>
+        <div class="story-visual">
+          <div class="story-visual-glow"></div>
+          <div class="story-mockup">
+            <div class="mockup-bar"><span></span><span></span><span></span></div>
+            <div class="mockup-3d" data-scene="pgdms">
+              <div class="mockup-3d-fallback"><svg viewBox="0 0 24 24"><path d="M4.5 20V11"/><path d="M12 20V4"/><path d="M19.5 20v-7.5"/><path d="M3 20h18"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="story-content">
+          <div class="story-eyebrow">Product 04 — Academic Analytics</div>
+          <h3 class="story-title">PGDMS: Student Feedback Analytics</h3>
+          <p class="story-desc">NLP pipeline processing 10K+ feedback records per term, surfacing insights to Power BI dashboards for academic leadership.</p>
+          <div class="story-stack">
+            <span class="stack-tag">BERT</span><span class="stack-tag">LDA</span><span class="stack-tag">VADER</span><span class="stack-tag">Pandas</span><span class="stack-tag">Power BI</span>
+          </div>
+          <div class="story-actions">
+            <a href="https://github.com/sahilx22" target="_blank" class="btn-outline">GitHub ↗</a>
+            <button type="button" class="story-toggle" onclick="toggleProject(this.closest('.story-project'))">🔍 <span class="hint-text"></span></button>
+          </div>
+          <div class="project-expand">
+            <div class="project-expand-title">What I built</div>
+            <ul>
+              <li>Automated ingestion, cleaning, and transformation pipeline for student feedback data</li>
+              <li>Sentiment analysis using VADER and fine-tuned BERT for positive/negative classification</li>
+              <li>LDA topic modelling to surface recurring themes by subject and instructor</li>
+              <li>Power BI dashboards with drill-down by course, cohort, and instructor</li>
+              <li>Adopted across 4 programme tracks, 15% improvement in student experience per cycle</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg section-decorated">
+  <div class="section-blob blob-a"></div>
+  <div class="section-blob blob-b"></div>
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Let's talk.</h2>
+      <p class="section-desc">Open to full-time roles, freelance work, and interesting problems. Reach out directly or fill the form.</p>
+    </div>
+    <div class="contact-grid fade-up">
+      <div>
+        <div class="contact-info">
+          <a href="mailto:sahilsoni.ds@gmail.com" class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-val">sahilsoni.ds@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/sahilsoni2272/" target="_blank" class="contact-item">
+            <div class="contact-item-icon">💼</div>
+            <div>
+              <div class="contact-item-label">LinkedIn</div>
+              <div class="contact-item-val">linkedin.com/in/sahilsoni2272</div>
+            </div>
+          </a>
+          <a href="https://github.com/sahilx22" target="_blank" class="contact-item">
+            <div class="contact-item-icon">🐙</div>
+            <div>
+              <div class="contact-item-label">GitHub</div>
+              <div class="contact-item-val">github.com/sahilx22</div>
+            </div>
+          </a>
+          <a href="tel:+916267877058" class="contact-item">
+            <div class="contact-item-icon">📱</div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-val">+91 6267877058</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" placeholder="e.g. Rahul Sharma"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="you@company.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Tell me about the role or project..."></textarea>
+          </div>
+          <button type="button" class="form-submit" id="form-submit">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="fade-up">
+  <div class="footer-text">Built by <span>Sahil Soni</span> · Bhopal, India</div>
+  <div class="footer-links">
+    <a href="https://github.com/sahilx22" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/sahilsoni2272/" target="_blank">LinkedIn</a>
+    <a href="mailto:sahilsoni.ds@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js" crossorigin="anonymous"></script>
+<script>
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.exp-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  document.querySelectorAll('#tab-' + tab + ' .exp-entry').forEach(el => el.classList.add('visible'));
+  requestAnimationFrame(updateTimelineFill);
+}
+
+// Project expand
+function toggleProject(card) {
+  card.classList.toggle('expanded');
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up, .about-card, .skill-category, .story-project, .contact-item, .exp-entry').forEach(el => observer.observe(el));
+
+// Experience timeline — fill line grows as the active timeline scrolls through view
+let timelineTicking = false;
+function updateTimelineFill() {
+  timelineTicking = false;
+  const timeline = document.querySelector('.exp-panel.active .exp-timeline');
+  if (!timeline) return;
+  const rect = timeline.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const start = vh * 0.85;
+  const end = vh * 0.25;
+  const span = (rect.height + start - end) || 1;
+  const progress = Math.min(1, Math.max(0, (start - rect.top) / span));
+  timeline.style.setProperty('--fill', (progress * 100) + '%');
+}
+window.addEventListener('scroll', () => {
+  if (!timelineTicking) { timelineTicking = true; requestAnimationFrame(updateTimelineFill); }
+}, { passive: true });
+window.addEventListener('resize', updateTimelineFill);
+updateTimelineFill();
+
+// Skill bar animations
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.querySelectorAll('.skill-bar').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skills-grid').forEach(el => barObserver.observe(el));
+
+// Form submit
+// Configure this to your Google Apps Script web app URL (or another webhook endpoint).
+// Example: the Apps Script URL you deployed.
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzdIR5jA8XRyKhhmYNwXBqAHSt5QoE4o7et24MsPCJ0Iryb6Ef00NGxHw3ESlvPcqvM/exec";
+const EMAIL_TO = "sahilsoni.ds@gmail.com";
+
+async function handleSubmit() {
+  const btn = document.getElementById('form-submit');
+  const name = document.querySelector('input[placeholder="e.g. Rahul Sharma"]').value.trim();
+  const email = document.querySelector('input[type="email"]').value.trim();
+  const message = document.querySelector('textarea').value.trim();
+
+  if (!name || !email || !message) {
+    btn.textContent = 'Please fill all fields';
+    setTimeout(() => { btn.textContent = 'Send Message →'; }, 2000);
+    return;
+  }
+
+  // Construct a friendly message body using the user's inputs
+  const subject = 'connection lead request from portfolio';
+  const bodyText = `This is a message request from ${name} (contact: ${email}).\n\nMessage:\n${message}\n\nSource: ${window.location.href}\nTimestamp: ${new Date().toISOString()}`;
+
+  // Open Gmail compose in a new tab with To, Subject and Body prefilled.
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL_TO)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+  window.open(gmailUrl, '_blank');
+
+  // Brief UI feedback
+  btn.textContent = 'Email composer opened';
+  setTimeout(() => { btn.textContent = 'Send Message →'; }, 1800);
+}
+
+// Wire the new button to the handler
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('form-submit');
+  if (btn) btn.addEventListener('click', handleSubmit);
+});
+
+// Mobile menu
+function toggleMenu() {
+  alert('Add mobile nav links here');
+}
+
+// Terminal typewriter — cycles through data/ML flavoured lines
+const terminalLines = [
+  'training model... accuracy 94.2%',
+  'optimising query plan... -60% latency',
+  'streaming ETL pipeline... 5M+ records',
+  'parsing resume with NER... done',
+  'connecting to PostgreSQL... success'
+];
+(function typewriter() {
+  const el = document.getElementById('terminal-text');
+  if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (el) el.textContent = terminalLines[0];
+    return;
+  }
+  let lineIdx = 0, charIdx = 0, deleting = false;
+  function tick() {
+    const line = terminalLines[lineIdx];
+    el.textContent = deleting ? line.slice(0, charIdx--) : line.slice(0, charIdx++);
+    let delay = deleting ? 30 : 55;
+    if (!deleting && charIdx > line.length) { deleting = true; delay = 1400; }
+    else if (deleting && charIdx < 0) { deleting = false; lineIdx = (lineIdx + 1) % terminalLines.length; delay = 400; }
+    setTimeout(tick, delay);
+  }
+  tick();
+})();
+
+// Hero neural network — subtle animated node graph evoking ML/data architecture
+(function heroNetwork() {
+  const canvas = document.getElementById('hero-net');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  const hero = canvas.parentElement;
+  let width, height, nodes;
+  const ACCENT = '109,123,255';
+  const ACCENT2 = '53,217,180';
+
+  function resize() {
+    width = canvas.width = hero.offsetWidth;
+    height = canvas.height = hero.offsetHeight;
+    const density = Math.min(60, Math.floor((width * height) / 22000));
+    nodes = Array.from({ length: density }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.6 + 0.8,
+      pulse: Math.random() * Math.PI * 2,
+      color: Math.random() < 0.5 ? ACCENT : ACCENT2
+    }));
+  }
+
+  function step() {
+    ctx.clearRect(0, 0, width, height);
+    const linkDist = Math.min(160, width / 6);
+
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > width) n.vx *= -1;
+      if (n.y < 0 || n.y > height) n.vy *= -1;
+      n.pulse += 0.02;
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < linkDist) {
+          const alpha = (1 - dist / linkDist) * 0.35;
+          ctx.strokeStyle = `rgba(${ACCENT},${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const n of nodes) {
+      const glow = 0.5 + Math.sin(n.pulse) * 0.3;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${n.color},${glow})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(step);
+})();
+
+// Smooth scroll (Lenis) + scroll progress + nav state
+let lenis = null;
+if (!prefersReducedMotion && window.Lenis) {
+  lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { offset: -70, duration: 1.2 });
+    else target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+const progressBar = document.getElementById('scroll-progress-bar');
+const navEl = document.querySelector('nav');
+function updateScrollUI() {
+  const doc = document.documentElement;
+  const max = doc.scrollHeight - doc.clientHeight;
+  const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+  if (navEl) navEl.classList.toggle('scrolled', window.scrollY > 40);
+}
+if (lenis) lenis.on('scroll', updateScrollUI);
+window.addEventListener('scroll', updateScrollUI, { passive: true });
+updateScrollUI();
+
+// Cursor glow — follows the pointer with soft lag
+(function cursorGlow() {
+  const glow = document.getElementById('cursor-glow');
+  if (!glow || prefersReducedMotion || isCoarsePointer) return;
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let gx = mx, gy = my;
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    glow.classList.add('active');
+  });
+  window.addEventListener('mouseleave', () => glow.classList.remove('active'));
+  function tick() {
+    gx += (mx - gx) * 0.12;
+    gy += (my - gy) * 0.12;
+    glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// Magnetic buttons — gently pull toward the cursor within their bounds
+(function magneticButtons() {
+  if (prefersReducedMotion || isCoarsePointer) return;
+  document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const relX = e.clientX - rect.left - rect.width / 2;
+      const relY = e.clientY - rect.top - rect.height / 2;
+      el.style.transition = 'transform 0.1s ease-out';
+      el.style.transform = `translate(${relX * 0.2}px, ${relY * 0.3}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.4s cubic-bezier(.2,.8,.2,1)';
+      el.style.transform = 'translate(0,0)';
+    });
+  });
+})();
+
+// Card tilt — subtle 3D perspective toward the cursor
+(function cardTilt() {
+  if (prefersReducedMotion || isCoarsePointer) return;
+  document.querySelectorAll('.skill-category, .about-card').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      el.style.transition = 'transform 0.1s ease-out';
+      el.style.transform = `perspective(700px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-2px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.5s cubic-bezier(.2,.8,.2,1)';
+      el.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+})();
+
+// Ambient background particles — sparse, drift slowly, ease away from the cursor
+(function bgParticles() {
+  const canvas = document.getElementById('bg-particles');
+  if (!canvas || prefersReducedMotion) return;
+  const ctx = canvas.getContext('2d');
+  let width, height, particles;
+  let mx = -9999, my = -9999;
+  const ACCENT = '109,123,255';
+  const ACCENT2 = '53,217,180';
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = document.documentElement.scrollHeight;
+    const count = Math.min(70, Math.floor((width * window.innerHeight) / 26000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+      r: Math.random() * 1.4 + 0.6,
+      color: Math.random() < 0.5 ? ACCENT : ACCENT2
+    }));
+  }
+
+  window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY + window.scrollY; });
+
+  function step() {
+    if (!document.hidden) {
+      ctx.clearRect(0, 0, width, height);
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+        const dx = p.x - mx, dy = p.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 140) {
+          const push = (140 - dist) / 140 * 0.04;
+          p.x += (dx / (dist || 1)) * push;
+          p.y += (dy / (dist || 1)) * push;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},0.5)`;
+        ctx.fill();
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('load', resize);
+  requestAnimationFrame(step);
+})();
+
+// Project story visuals — per-project 3D scene (paused off-screen), parallax + tilt
+(function projectStoryVisuals() {
+  // Safety net: guarantee the blur-to-focus reveal on each visual always resolves crisp,
+  // even if a browser leaves a stray composited layer after the filter transition.
+  document.querySelectorAll('.story-visual').forEach(el => {
+    el.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'filter') el.style.filter = 'none';
+    });
+  });
+
+  // Per-project 3D scene — a small Three.js product visual themed to what it represents,
+  // rendered inside the browser-chrome mockup. Paused while off-screen; a static single
+  // frame is drawn under reduced-motion instead of a continuous rotation.
+  (function storyThreeD() {
+    const mounts = document.querySelectorAll('.mockup-3d');
+    if (!mounts.length || !window.THREE) return;
+    const ACCENT = 0x6d7bff, ACCENT2 = 0x35d9b4, WARM = 0xffb454, GREEN = 0x4ade80, MUTED = 0x4a4f5c;
+    const FOG_COLOR = 0x05070a;
+
+    // ---- shared helpers ----
+    // Cheap multi-octave sine drift — reads as organic rather than a single mechanical loop.
+    function drift(x, seed) {
+      return Math.sin(x * 1.7 + seed) * 0.5 + Math.sin(x * 0.53 + seed * 2.1) * 0.3 + Math.sin(x * 3.1 + seed * 0.7) * 0.2;
+    }
+    function curveLine(points, color, opacity) {
+      const geo = new THREE.BufferGeometry().setFromPoints(points);
+      return new THREE.Line(geo, new THREE.LineBasicMaterial({ color, transparent: true, opacity }));
+    }
+    // Emissive node — reacts to scene lighting a little while still reading as "glowing" under bloom.
+    function glowNode(r, color, segs) {
+      return new THREE.Mesh(new THREE.SphereGeometry(r, segs || 12, segs || 12), new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 1.3, roughness: 0.4, metalness: 0.25 }));
+    }
+    // Frosted-glass style panel: physical material, no env map (kept out of scope for a CDN-only
+    // build), but roughness/clearcoat + a bright rim edge line reads as premium glass under bloom.
+    function glassCard(w, h, color, opacity) {
+      const geo = new THREE.PlaneGeometry(w, h);
+      const mat = new THREE.MeshPhysicalMaterial({ color: color || 0xffffff, transparent: true, opacity: opacity || 0.09, side: THREE.DoubleSide, roughness: 0.28, metalness: 0.06, clearcoat: 0.5, clearcoatRoughness: 0.35 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.35 })));
+      return mesh;
+    }
+    function makePulse(curve, color, speed, size) {
+      const mesh = glowNode(size || 0.05, color, 10);
+      let t = Math.random();
+      return { mesh, tick(dt) { t = ((t + dt * speed) % 1 + 1) % 1; mesh.position.copy(curve.getPointAt(t)); } };
+    }
+    // Distant particle shell behind the main composition — background depth layer + atmosphere,
+    // a single Points draw call so it stays cheap regardless of count.
+    function backdropField(color, count) {
+      count = count || 46;
+      const positions = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        const r = 2.6 + Math.random() * 2.4;
+        const theta = Math.random() * Math.PI * 2, phi = Math.acos(Math.random() * 2 - 1);
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.6;
+        positions[i * 3 + 2] = r * Math.cos(phi) - 1.4;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const pts = new THREE.Points(geo, new THREE.PointsMaterial({ color, size: 0.018, transparent: true, opacity: 0.4, sizeAttenuation: true }));
+      return { mesh: pts, tick(dt) { pts.rotation.y += dt * 0.012; } };
+    }
+    // Reveal progress of a project section: 1 when centred in the viewport, tapering to 0 at the edges.
+    function sceneProgress(mount) {
+      const rect = mount.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const center = rect.top + rect.height / 2;
+      return Math.max(0, Math.min(1, 1 - Math.abs(center - vh / 2) / (vh / 2 + rect.height / 2)));
+    }
+
+    // ---- Project 1: TrackPack — warehouse intelligence ----
+    function buildWarehouse(scene) {
+      scene.fog = new THREE.FogExp2(FOG_COLOR, 0.1);
+      const group = new THREE.Group();
+      const ticks = [];
+      const backdrop = backdropField(ACCENT, 40); scene.add(backdrop.mesh); ticks.push(backdrop);
+
+      const grid = new THREE.GridHelper(3, 8, ACCENT, 0x232838);
+      grid.position.y = -0.9;
+      grid.material.transparent = true;
+      grid.material.opacity = 0.22;
+      group.add(grid);
+
+      const rackBoxGeo = new THREE.BoxGeometry(0.26, 0.26, 0.26);
+      function rack(x) {
+        const rackGroup = new THREE.Group();
+        const boxes = [];
+        for (let row = 0; row < 2; row++) {
+          for (let col = 0; col < 2; col++) {
+            const mesh = new THREE.Mesh(rackBoxGeo, new THREE.MeshStandardMaterial({ color: (row + col) % 2 === 0 ? ACCENT : ACCENT2, roughness: 0.5 }));
+            mesh.position.set(col * 0.34, row * 0.34 - 0.6, 0);
+            rackGroup.add(mesh); boxes.push(mesh);
+          }
+        }
+        rackGroup.position.x = x;
+        rackGroup.userData.boxes = boxes;
+        return rackGroup;
+      }
+      const rackA = rack(-1.05), rackB = rack(0.8);
+      group.add(rackA, rackB);
+
+      const warehouseNode = glowNode(0.09, ACCENT); warehouseNode.position.set(-1.05, -0.9, 0.85);
+      const customerNode = glowNode(0.09, ACCENT2); customerNode.position.set(1.15, -0.85, -0.85);
+      group.add(warehouseNode, customerNode);
+
+      // Delivery cycle: package leaves the warehouse, travels the route, "arrives" (QR scan pulse
+      // flashes + destination rack restocks) then a new shipment begins — a legible loop, not a
+      // particle just orbiting forever.
+      const route = new THREE.CatmullRomCurve3([warehouseNode.position.clone(), new THREE.Vector3(0, -0.45, 0.15), customerNode.position.clone()]);
+      group.add(curveLine(route.getPoints(40), ACCENT, 0.4));
+      const parcel = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.07, 0.09), new THREE.MeshStandardMaterial({ color: ACCENT2, emissive: ACCENT2, emissiveIntensity: 0.6, roughness: 0.4 }));
+      group.add(parcel);
+      const qr = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.36), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.12, side: THREE.DoubleSide, roughness: 0.3 }));
+      qr.position.set(0.1, 0.6, 0.4);
+      group.add(qr);
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.22, 32), new THREE.MeshBasicMaterial({ color: ACCENT2, transparent: true, opacity: 0, side: THREE.DoubleSide }));
+      ring.position.copy(qr.position);
+      group.add(ring);
+
+      let deliveryT = 0, scanFlash = 0;
+      ticks.push({
+        tick(dt) {
+          deliveryT += dt * 0.16;
+          if (deliveryT >= 1 || deliveryT < 0) {
+            deliveryT = 0;
+            scanFlash = 1; // trigger a QR scan pulse + restock bump on arrival
+            const box = rackB.userData.boxes[Math.floor(Math.random() * rackB.userData.boxes.length)];
+            box.userData.bump = 1;
+          }
+          const safeT = Math.max(0, Math.min(0.999, deliveryT));
+          const p = route.getPointAt(safeT);
+          parcel.position.copy(p);
+          parcel.rotation.y += dt * 1.4;
+          const tangent = route.getTangentAt(safeT);
+          parcel.lookAt(p.clone().add(tangent));
+
+          scanFlash = Math.max(0, scanFlash - dt * 1.2);
+          ring.scale.setScalar(1 + (1 - scanFlash) * 1.4);
+          ring.material.opacity = scanFlash * 0.7;
+
+          [...rackA.userData.boxes, ...rackB.userData.boxes].forEach(b => {
+            if (b.userData.bump) {
+              b.userData.bump = Math.max(0, b.userData.bump - dt * 1.8);
+              const s = 1 + b.userData.bump * 0.35;
+              b.scale.setScalar(s);
+            }
+          });
+        }
+      });
+
+      scene.add(group);
+      return {
+        group, ticks, focal: new THREE.Vector3(0, -0.3, 0),
+        camera(camera, ctx) {
+          const radius = 4.9 - ctx.progress * 0.5;
+          const angle = ctx.elapsed * 0.06 + ctx.progress * 0.4;
+          camera.position.set(Math.sin(angle) * radius, 0.5 + drift(ctx.elapsed * 0.2, 1) * 0.15, Math.cos(angle) * radius);
+        }
+      };
+    }
+
+    // ---- Project 2: Sales CRM — data flow + revenue intelligence ----
+    function buildSalesFlow(scene) {
+      scene.fog = new THREE.FogExp2(FOG_COLOR, 0.09);
+      const group = new THREE.Group();
+      const ticks = [];
+      const backdrop = backdropField(ACCENT2, 40); scene.add(backdrop.mesh); ticks.push(backdrop);
+
+      const c1 = glassCard(1.05, 0.72); c1.position.set(-0.85, 0.3, 0.25); c1.rotation.y = 0.25;
+      const c2 = glassCard(0.95, 0.66); c2.position.set(0.85, -0.2, -0.2); c2.rotation.y = -0.2;
+      group.add(c1, c2);
+
+      const barGroup = new THREE.Group();
+      const bars = [];
+      [0.22, 0.4, 0.28, 0.5].forEach((h, i) => {
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.08, h, 0.08), new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? ACCENT : ACCENT2, emissive: i % 2 === 0 ? ACCENT : ACCENT2, emissiveIntensity: 0.3 }));
+        bar.position.set((i - 1.5) * 0.15, h / 2 - 0.3, 0.06);
+        bar.userData.baseH = h;
+        barGroup.add(bar); bars.push(bar);
+      });
+      barGroup.position.copy(c1.position);
+      group.add(barGroup);
+
+      const pts = []; for (let i = 0; i < 6; i++) pts.push(new THREE.Vector3((i - 2.5) * 0.13, Math.pow(i / 5, 1.4) * 0.45 - 0.24, 0.06));
+      const revCurve = new THREE.CatmullRomCurve3(pts);
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(revCurve, 32, 0.013, 6, false), new THREE.MeshStandardMaterial({ color: ACCENT2, emissive: ACCENT2, emissiveIntensity: 0.5 }));
+      tube.position.copy(c2.position);
+      group.add(tube);
+
+      const manager = glowNode(0.08, ACCENT); manager.position.set(0, 1.0, 0.55);
+      group.add(manager);
+      const agentPositions = [new THREE.Vector3(-0.65, 0.1, 0.55), new THREE.Vector3(0, 0.0, 0.7), new THREE.Vector3(0.65, 0.1, 0.5)];
+      const agentNodes = [], agentCurves = [];
+      agentPositions.forEach((p) => {
+        const agent = glowNode(0.05, ACCENT2);
+        agent.position.copy(p);
+        group.add(agent); agentNodes.push(agent);
+        const c = new THREE.CatmullRomCurve3([manager.position.clone(), p.clone()]);
+        group.add(curveLine(c.getPoints(20), ACCENT, 0.28));
+        agentCurves.push(c);
+      });
+
+      // Round-robin lead assignment: one lead pulse travels manager -> a chosen agent, then on
+      // arrival that agent flashes and the matching revenue bar grows — cause, then effect.
+      let leadT = 0, leadTarget = 0;
+      const leadMesh = glowNode(0.036, 0xffffff); group.add(leadMesh);
+      ticks.push({
+        tick(dt) {
+          leadT += dt * 0.35;
+          if (leadT >= 1 || leadT < 0) {
+            leadT = 0;
+            leadTarget = (leadTarget + 1 + Math.floor(Math.random() * 2)) % agentCurves.length;
+            agentNodes[leadTarget].userData.flash = 1;
+            const bar = bars[leadTarget % bars.length];
+            bar.userData.bump = 1;
+          }
+          leadMesh.position.copy(agentCurves[leadTarget].getPointAt(Math.max(0, Math.min(0.999, leadT))));
+          agentNodes.forEach(n => {
+            const f = n.userData.flash || 0;
+            if (f > 0) { n.userData.flash = Math.max(0, f - dt * 1.5); n.scale.setScalar(1 + n.userData.flash * 0.8); }
+          });
+          bars.forEach(b => {
+            const bump = b.userData.bump || 0;
+            if (bump > 0) {
+              b.userData.bump = Math.max(0, bump - dt * 1.2);
+              b.scale.y = 1 + b.userData.bump * 0.3;
+            }
+          });
+        }
+      });
+
+      const pCount = 14;
+      const positions = new Float32Array(pCount * 3);
+      for (let i = 0; i < pCount; i++) {
+        positions[i * 3] = c2.position.x + (Math.random() - 0.5) * 0.5;
+        positions[i * 3 + 1] = c2.position.y - 0.4 + Math.random() * 0.8;
+        positions[i * 3 + 2] = c2.position.z + (Math.random() - 0.5) * 0.2;
+      }
+      const pGeo = new THREE.BufferGeometry();
+      pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: ACCENT2, size: 0.032, transparent: true, opacity: 0.8 }));
+      group.add(points);
+      ticks.push({
+        tick(dt) {
+          const arr = pGeo.attributes.position.array;
+          for (let i = 0; i < pCount; i++) {
+            arr[i * 3 + 1] += dt * 0.22;
+            if (arr[i * 3 + 1] > c2.position.y + 0.5) arr[i * 3 + 1] = c2.position.y - 0.4;
+          }
+          pGeo.attributes.position.needsUpdate = true;
+        }
+      });
+
+      scene.add(group);
+      return {
+        group, ticks, focal: new THREE.Vector3(0, 0.1, 0),
+        camera(camera, ctx) {
+          const dist = 5.2 - ctx.progress * 1.0;
+          camera.position.set(Math.sin(ctx.elapsed * 0.1) * 0.7, 0.25 + drift(ctx.elapsed * 0.18, 4) * 0.12, dist);
+        }
+      };
+    }
+
+    // ---- Project 3: Recruitect — AI processing engine (hero scene) ----
+    function buildAIEngine(scene) {
+      scene.fog = new THREE.FogExp2(FOG_COLOR, 0.08);
+      const group = new THREE.Group();
+      const ticks = [];
+      const backdrop = backdropField(ACCENT2, 55); scene.add(backdrop.mesh); ticks.push(backdrop);
+
+      const icosaGeo = new THREE.IcosahedronGeometry(1.02, 1);
+      group.add(new THREE.LineSegments(new THREE.EdgesGeometry(icosaGeo), new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.55 })));
+
+      const positions = icosaGeo.attributes.position;
+      const nodeGeo = new THREE.SphereGeometry(0.045, 8, 8);
+      const seen = new Set(); const nodes = [];
+      for (let i = 0; i < positions.count; i++) {
+        const key = `${positions.getX(i).toFixed(2)},${positions.getY(i).toFixed(2)},${positions.getZ(i).toFixed(2)}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const c = Math.random() < 0.5 ? ACCENT2 : 0xffffff;
+        const node = new THREE.Mesh(nodeGeo, new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.1 }));
+        node.position.set(positions.getX(i), positions.getY(i), positions.getZ(i));
+        group.add(node); nodes.push(node);
+      }
+      ticks.push({ tick(dt, elapsed) { nodes.forEach((n, i) => { const s = 1 + Math.sin(elapsed * 2 + i) * 0.22; n.scale.set(s, s, s); }); } });
+
+      // Confidence ring — its angular fill (not just rotation) grows as the average candidate
+      // score climbs, then resets, representing "confidence increasing".
+      const ringGeo = new THREE.TorusGeometry(1.35, 0.011, 8, 64, Math.PI * 0.4);
+      const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: ACCENT2, transparent: true, opacity: 0.5 }));
+      ring.rotation.x = Math.PI / 2.3;
+      group.add(ring);
+      let confidence = 0;
+      ticks.push({
+        tick(dt) {
+          ring.rotation.z += dt * 0.15;
+          confidence = (confidence + dt * 0.12) % 1;
+          ring.scale.setScalar(0.9 + confidence * 0.3);
+          ring.material.opacity = 0.25 + confidence * 0.35;
+        }
+      });
+
+      // Resume pipeline: enter -> drift inward -> "scan" near the core (small embedding
+      // particles peel off toward the nearest node) -> accept (brightens, passes through and
+      // fades onward) or reject (dims, shrinks, dissolves in place). Never a single endless loop.
+      const resumes = [];
+      const embeds = [];
+      for (let i = 0; i < 4; i++) {
+        const r = glassCard(0.46, 0.62, 0xffffff, 0.09);
+        r.userData.angle = (i / 4) * Math.PI * 2 + Math.random() * 0.4;
+        r.userData.radius = 2.0;
+        r.userData.phase = 'enter'; // enter -> scan -> resolve
+        r.userData.t = Math.random() * 0.4;
+        r.userData.outcome = Math.random() < 0.65 ? 'accept' : 'reject';
+        group.add(r); resumes.push(r);
+        for (let e = 0; e < 3; e++) {
+          const em = glowNode(0.02, ACCENT2, 6);
+          em.visible = false;
+          group.add(em); embeds.push({ mesh: em, owner: r, active: false, t: 0 });
+        }
+      }
+      ticks.push({
+        tick(dt) {
+          resumes.forEach(r => {
+            if (r.userData.phase === 'enter') {
+              r.userData.t += dt * 0.16;
+              const t = Math.min(1, r.userData.t);
+              const rad = r.userData.radius * (1 - t * 0.78);
+              r.position.set(Math.cos(r.userData.angle) * rad, Math.sin(r.userData.angle * 1.3) * 0.4, Math.sin(r.userData.angle) * rad);
+              r.material.opacity = 0.1 + t * 0.06;
+              r.lookAt(0, 0, 0);
+              if (t >= 1) { r.userData.phase = 'scan'; r.userData.t = 0; }
+            } else if (r.userData.phase === 'scan') {
+              r.userData.t += dt;
+              const pulse = 1 + Math.sin(r.userData.t * 14) * 0.06;
+              r.scale.setScalar(pulse);
+              if (r.userData.t > 0.9) {
+                r.userData.phase = 'resolve'; r.userData.t = 0;
+                embeds.filter(e => e.owner === r).forEach(e => { e.active = true; e.t = 0; e.mesh.visible = true; e.mesh.position.copy(r.position); });
+              }
+            } else if (r.userData.phase === 'resolve') {
+              r.userData.t += dt * 0.5;
+              const t = Math.min(1, r.userData.t);
+              if (r.userData.outcome === 'accept') {
+                const rad = 0.45 - t * 1.6;
+                r.position.set(Math.cos(r.userData.angle) * rad, Math.sin(r.userData.angle * 1.3) * 0.4, Math.sin(r.userData.angle) * rad);
+                r.material.opacity = 0.16 * (1 - t);
+                r.material.emissive = new THREE.Color(ACCENT2);
+                r.material.emissiveIntensity = 0.4 * (1 - t);
+              } else {
+                r.scale.setScalar(1 - t * 0.9);
+                r.material.opacity = 0.14 * (1 - t);
+              }
+              if (t >= 1) {
+                r.userData.phase = 'enter'; r.userData.t = 0; r.scale.setScalar(1);
+                r.userData.angle = Math.random() * Math.PI * 2;
+                r.userData.outcome = Math.random() < 0.65 ? 'accept' : 'reject';
+                r.material.emissiveIntensity = 0; r.material.emissive = new THREE.Color(0x000000);
+              }
+            }
+          });
+          embeds.forEach(e => {
+            if (!e.active) return;
+            e.t += dt * 1.3;
+            if (e.t >= 1) { e.active = false; e.mesh.visible = false; return; }
+            const target = nodes[Math.floor(Math.abs(Math.sin(e.t * 999 + (e.owner ? e.owner.id : 0))) * nodes.length) % nodes.length];
+            e.mesh.position.lerpVectors(e.owner.position, target.position, e.t);
+          });
+        }
+      });
+
+      const simLines = [];
+      for (let i = 0; i < 3; i++) {
+        const target = new THREE.Vector3((Math.random() - 0.5) * 2.3, (Math.random() - 0.5) * 2.3, (Math.random() - 0.5) * 2.3);
+        const line = curveLine([new THREE.Vector3(0, 0, 0), target], i % 2 === 0 ? ACCENT2 : 0xffffff, 0.3);
+        group.add(line); simLines.push(line);
+      }
+      ticks.push({ tick(dt, elapsed) { simLines.forEach((l, i) => { l.material.opacity = 0.15 + Math.abs(Math.sin(elapsed * 0.8 + i)) * 0.35; }); } });
+
+      scene.add(group);
+      return {
+        group, ticks, focal: new THREE.Vector3(0, 0, 0),
+        camera(camera, ctx) {
+          const radius = 5.3 - ctx.progress * 1.6;
+          const angle = ctx.elapsed * 0.09;
+          camera.position.set(Math.sin(angle) * radius, 0.3 + Math.sin(angle * 0.6) * 0.3, Math.cos(angle) * radius);
+        }
+      };
+    }
+
+    // ---- Project 4: Student Feedback Analytics — NLP pipeline ----
+    function buildFeedbackAnalytics(scene) {
+      scene.fog = new THREE.FogExp2(FOG_COLOR, 0.09);
+      const group = new THREE.Group();
+      const ticks = [];
+      const backdrop = backdropField(GREEN, 40); scene.add(backdrop.mesh); ticks.push(backdrop);
+
+      const clusterCenters = [new THREE.Vector3(-0.85, 0.4, 0.2), new THREE.Vector3(0.85, 0.3, -0.3), new THREE.Vector3(0, -0.65, 0.4)];
+      const clusterColors = [GREEN, WARM, ACCENT];
+      const clusterMeshes = [];
+
+      const count = 90;
+      const positions = new Float32Array(count * 3);
+      const colors = new Float32Array(count * 3);
+      const targets = [];
+      const tmpColor = new THREE.Color();
+      for (let i = 0; i < count; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 3;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 2;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
+        const ci = i % clusterCenters.length;
+        targets.push(clusterCenters[ci]);
+        tmpColor.set(clusterColors[ci]);
+        colors[i * 3] = tmpColor.r; colors[i * 3 + 1] = tmpColor.g; colors[i * 3 + 2] = tmpColor.b;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const points = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.042, vertexColors: true, transparent: true, opacity: 0.85 }));
+      group.add(points);
+
+      ticks.push({
+        tick(dt) {
+          const arr = geo.attributes.position.array;
+          for (let i = 0; i < count; i++) {
+            const t = targets[i];
+            arr[i * 3] += (t.x - arr[i * 3]) * dt * 0.6;
+            arr[i * 3 + 1] += (t.y - arr[i * 3 + 1]) * dt * 0.6;
+            arr[i * 3 + 2] += (t.z - arr[i * 3 + 2]) * dt * 0.6;
+          }
+          geo.attributes.position.needsUpdate = true;
+        }
+      });
+
+      clusterCenters.forEach((c, i) => {
+        const halo = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 16), new THREE.MeshBasicMaterial({ color: clusterColors[i], transparent: true, opacity: 0.05 }));
+        halo.position.copy(c);
+        group.add(halo); clusterMeshes.push(halo);
+      });
+
+      // Periodically two clusters "correlate": a connecting line briefly appears between them
+      // and both halos pulse — representing topics merging / insight discovery.
+      const mergeLine = curveLine([new THREE.Vector3(), new THREE.Vector3()], 0xffffff, 0);
+      group.add(mergeLine);
+      let mergeT = 2, mergeA = 0, mergeB = 1;
+      ticks.push({
+        tick(dt) {
+          mergeT += dt;
+          if (mergeT > 5) {
+            mergeT = 0;
+            mergeA = Math.floor(Math.random() * clusterMeshes.length);
+            mergeB = (mergeA + 1 + Math.floor(Math.random() * (clusterMeshes.length - 1))) % clusterMeshes.length;
+            const posAttr = mergeLine.geometry.attributes.position;
+            posAttr.setXYZ(0, clusterCenters[mergeA].x, clusterCenters[mergeA].y, clusterCenters[mergeA].z);
+            posAttr.setXYZ(1, clusterCenters[mergeB].x, clusterCenters[mergeB].y, clusterCenters[mergeB].z);
+            posAttr.needsUpdate = true;
+          }
+          const glow = Math.max(0, 1 - mergeT * 0.6);
+          mergeLine.material.opacity = glow * 0.5;
+          clusterMeshes.forEach((h, i) => { const bump = (i === mergeA || i === mergeB) ? glow * 0.5 : 0; h.scale.setScalar(1 + bump); });
+        }
+      });
+
+      const docs = [];
+      for (let i = 0; i < 3; i++) {
+        const d = glassCard(0.38, 0.5, 0xffffff, 0.09);
+        d.position.set((i - 1) * 0.85, 1.5, (Math.random() - 0.5) * 0.6);
+        d.userData.speed = 0.12 + Math.random() * 0.05;
+        group.add(d); docs.push(d);
+      }
+      ticks.push({
+        tick(dt, elapsed) {
+          docs.forEach((d, i) => {
+            d.position.y -= dt * d.userData.speed;
+            d.position.x += drift(elapsed * 0.4, i * 3) * dt * 0.05;
+            if (d.position.y < -1.1) d.position.y = 1.5;
+          });
+        }
+      });
+
+      const dash = glassCard(0.85, 0.56, 0xffffff, 0.06);
+      dash.position.set(1.25, -0.85, 0.55);
+      group.add(dash);
+      const dashBars = [];
+      [0.13, 0.22, 0.17].forEach((h, i) => {
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.075, h, 0.075), new THREE.MeshStandardMaterial({ color: i === 0 ? GREEN : i === 1 ? ACCENT : WARM, emissive: i === 0 ? GREEN : i === 1 ? ACCENT : WARM, emissiveIntensity: 0.35 }));
+        bar.position.set(dash.position.x + (i - 1) * 0.13, dash.position.y - 0.28 + h / 2, dash.position.z + 0.05);
+        bar.userData.baseY = bar.position.y; bar.userData.baseH = h;
+        group.add(bar); dashBars.push(bar);
+      });
+      ticks.push({ tick(dt, elapsed) { dashBars.forEach((b, i) => { const s = 1 + Math.sin(elapsed * 0.7 + i * 2) * 0.1; b.scale.y = s; }); } });
+
+      scene.add(group);
+      return {
+        group, ticks, focal: new THREE.Vector3(0, -0.05, 0),
+        camera(camera, ctx) {
+          camera.position.set(Math.sin(ctx.elapsed * 0.08) * 1.0, 0.3 + drift(ctx.elapsed * 0.15, 8) * 0.15, 4.9 - ctx.progress * 0.7);
+        }
+      };
+    }
+
+    const builders = { trackpack: buildWarehouse, salescrm: buildSalesFlow, recruitect: buildAIEngine, pgdms: buildFeedbackAnalytics };
+
+    mounts.forEach(mount => {
+      const build = builders[mount.dataset.scene];
+      if (!build) return;
+      const width = mount.clientWidth || 300, height = mount.clientHeight || 260;
+
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      } catch (e) { return; }
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height);
+      if ('outputEncoding' in renderer) renderer.outputEncoding = THREE.sRGBEncoding;
+      mount.appendChild(renderer.domElement);
+      const fallback = mount.querySelector('.mockup-3d-fallback');
+      if (fallback) fallback.style.display = 'none';
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+      camera.position.set(0, 0.2, 4.6);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+      const light = new THREE.PointLight(0xffffff, 1.1, 14);
+      light.position.set(2, 2.5, 3);
+      scene.add(light);
+      const rim = new THREE.PointLight(ACCENT2, 0.5, 12);
+      rim.position.set(-2, -1.5, -2);
+      scene.add(rim);
+
+      const built = build(scene);
+      const group = built.group;
+      const ticks = built.ticks || [];
+      const focal = built.focal || new THREE.Vector3(0, 0, 0);
+
+      let composer = null;
+      if (THREE.EffectComposer && THREE.RenderPass && THREE.UnrealBloomPass) {
+        try {
+          composer = new THREE.EffectComposer(renderer);
+          composer.addPass(new THREE.RenderPass(scene, camera));
+          const bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), 0.6, 0.45, 0.2);
+          composer.addPass(bloom);
+        } catch (e) { composer = null; }
+      }
+      function renderFrame() { if (composer) composer.render(); else renderer.render(scene, camera); }
+
+      let px = 0, py = 0, targetPx = 0, targetPy = 0;
+      mount.addEventListener('mousemove', (e) => {
+        const rect = mount.getBoundingClientRect();
+        targetPx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetPy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+      mount.addEventListener('mouseleave', () => { targetPx = 0; targetPy = 0; });
+
+      if (prefersReducedMotion) {
+        group.rotation.set(0.25, 0.45, 0);
+        camera.position.set(0, 0.3, 4.4);
+        camera.lookAt(focal);
+        renderFrame();
+      } else {
+        let scaleT = 0, running = false, rafId = null, lastTime = performance.now(), elapsed = 0;
+        function animate(now) {
+          if (!running) return;
+          const dt = Math.max(0, Math.min(0.05, (now - lastTime) / 1000));
+          lastTime = now; elapsed += dt;
+          const progress = sceneProgress(mount);
+
+          scaleT = Math.min(1, scaleT + dt * 2.2);
+          const s = 0.82 + 0.18 * scaleT;
+          group.scale.set(s, s, s);
+          group.rotation.y += dt * 0.12;
+
+          px += (targetPx - px) * Math.min(1, dt * 3);
+          py += (targetPy - py) * Math.min(1, dt * 3);
+
+          if (built.camera) built.camera(camera, { elapsed, progress, dt });
+          camera.position.x += px * 0.3;
+          camera.position.y += -py * 0.2;
+          camera.lookAt(focal);
+
+          light.position.x = 2 + px * 1.2;
+          light.position.y = 2.5 - py * 1.2;
+
+          ticks.forEach(t => t.tick(dt, elapsed));
+
+          renderFrame();
+          rafId = requestAnimationFrame(animate);
+        }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting && !running) { running = true; lastTime = performance.now(); rafId = requestAnimationFrame(animate); }
+            else if (!e.isIntersecting) { running = false; if (rafId) cancelAnimationFrame(rafId); }
+          });
+        }, { threshold: 0.15 });
+        io.observe(mount);
+        window.addEventListener('resize', () => {
+          const w = mount.clientWidth, h = mount.clientHeight;
+          if (!w || !h) return;
+          renderer.setSize(w, h);
+          if (composer) composer.setSize(w, h);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          if (!running) renderFrame();
+        });
+      }
+    });
+  })();
+
+  if (prefersReducedMotion) return;
+
+  // Scroll parallax + cursor tilt, combined into one transform per mockup
+  const mockupState = new Map();
+  function applyMockupTransform(mockup) {
+    const s = mockupState.get(mockup) || { tiltX: 0, tiltY: 0, py: 0 };
+    mockup.style.transform = `perspective(900px) rotateX(${s.tiltX}deg) rotateY(${s.tiltY}deg) translateY(${s.py}px)`;
+  }
+
+  let parallaxTicking = false;
+  function updateParallax() {
+    parallaxTicking = false;
+    const vh = window.innerHeight;
+    document.querySelectorAll('.story-mockup').forEach(mockup => {
+      const rect = mockup.closest('.story-project').getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const ratio = Math.max(-0.6, Math.min(0.6, (vh / 2 - center) / vh));
+      const s = mockupState.get(mockup) || { tiltX: 0, tiltY: 0, py: 0 };
+      s.py = ratio * 28;
+      mockupState.set(mockup, s);
+      applyMockupTransform(mockup);
+    });
+  }
+  window.addEventListener('scroll', () => {
+    if (!parallaxTicking) { parallaxTicking = true; requestAnimationFrame(updateParallax); }
+  }, { passive: true });
+  updateParallax();
+
+  if (!isCoarsePointer) {
+    document.querySelectorAll('.story-visual').forEach(visual => {
+      const mockup = visual.querySelector('.story-mockup');
+      if (!mockup) return;
+      visual.addEventListener('mousemove', (e) => {
+        const rect = visual.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        const s = mockupState.get(mockup) || { py: 0 };
+        s.tiltX = -py * 8;
+        s.tiltY = px * 8;
+        mockupState.set(mockup, s);
+        mockup.style.transition = 'transform 0.1s ease-out';
+        applyMockupTransform(mockup);
+      });
+      visual.addEventListener('mouseleave', () => {
+        const s = mockupState.get(mockup) || { py: 0 };
+        s.tiltX = 0; s.tiltY = 0;
+        mockupState.set(mockup, s);
+        mockup.style.transition = 'transform 0.5s cubic-bezier(.2,.8,.2,1)';
+        applyMockupTransform(mockup);
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
